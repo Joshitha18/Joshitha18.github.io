@@ -116,7 +116,7 @@ body { font-family: "Poppins", sans-serif; }
 
 #container { display: inline-block; position: relative; width: 100%; }
 
-#dummy { padding-top: 85%; /* 1:1 aspect ratio */ }
+#dummy { padding-top: 100%; /* 1:1 aspect ratio */ }
 
 #element { position: absolute; top: 0; bottom: 0; left: 0; right: 0; }
 
