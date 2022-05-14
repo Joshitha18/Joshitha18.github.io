@@ -1,0 +1,30 @@
+<style>
+h1.increase {
+    font-size: 70px;
+    transform: scale(1.1, 1);
+    padding-top: 20%
+}
+
+h1.main {
+  font-size: 80px;
+  transform: scale(1.1, 1);
+}
+</style>
+
+<div class="row justify-content-center align-items-center p-4">
+  <div class="col-lg-4 col-md-6 text-center mt-4">
+
+    <!-- Fine Circle Responsive Image -->
+    <div id="container" class="my-2">
+      <div id="dummy"></div>
+      <div id="element" class="wow animated zoomIn">      
+        <!-- <img src="{{ site.author.image }}" alt="{{ site.title }}" class="circle-image wow animated zoomIn" data-wow-delay=".1s"> -->
+        <h1 class="increase" data-wow-delay=".1s">Hi, I'm</h1>
+        <h1 class="main" data-wow-delay=".1s">Joshitha</h1>
+      </div>
+    </div>
+
+    <p class="text-muted wow animated slideInUp" data-wow-delay=".15s">{{ site.description }}</p>
+
+  </div>
+</div>

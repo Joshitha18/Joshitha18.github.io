@@ -1,0 +1,7 @@
+- name: Python
+  percentage: 95
+  color: info
+
+- name: Tensorflow
+  percentage: 90
+  color: success
