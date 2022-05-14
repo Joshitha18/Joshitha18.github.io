@@ -1,10 +1,10 @@
 [
   
     {
-      "title"    : "Bias and variance",
+      "title"    : "Handling Imbalanced data - part 1",
       "category" : "",
       "tags"     : "machine learning",
-      "url"      : "/blog/bias-variance",
+      "url"      : "/blog/class-imbalance",
       "date"     : "2022-05-14 00:00:00 +0530"
     } 
   

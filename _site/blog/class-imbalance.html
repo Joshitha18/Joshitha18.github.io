@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by Youssef Raafat
+  Free for personal and commercial use under the MIT license
+  https://github.com/YoussefRaafatNasry/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Handling Imbalanced data - part 1">
+  <meta property="og:description" content="Imbalanced data refers to classification problems where we have unequal instances for different classes. In this post, we'll discuss the concepts in balancin...">
+
+  <title>Handling Imbalanced data - part 1</title>
+  <meta name="description" content="Imbalanced data refers to classification problems where we have unequal instances for different classes. In this post, we'll discuss the concepts in balancin...">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.0/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>Joshitha Gandra</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Handling Imbalanced data - part 1</b></h1>
+
+<p class="post-metadata text-muted">
+  14 May 2022 -  
+  <b>4 mins read time</b>
+
+  <br>Tags: 
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#machine-learning">
+      <span class="tag badge badge-pill text-primary border border-primary">machine learning</span>
+    </a>
+    </p>
+
+<p>When faced with a class imbalance in our data, we may want to try to balance the training data before we build a model around it. One way to do this is by using sampling techniques which focus on solving the issue through manipulation of the data - we modify the data distribution to make sure that the data is balanced.</p>
+
+<p>The two most adopted sampling methods are:</p>
+<ol>
+  <li>Oversampling the minority class</li>
+  <li>Undersampling the majority class</li>
+</ol>
+
+<figure class="figure w-100">
+  <img src="https://rb.gy/b6qg8i" class="figure-img img-fluid rounded" alt="sampling methods" /><figcaption class="figure-caption text-center">sampling methods</figcaption></figure>
+
+<h2 id="oversampling-the-minority-class">Oversampling the minority class</h2>
+
+<p>In the case of over-sampling, we pick a larger proportion from the class with fewer values in order to come closer to the amount of the majority class; here we increase the number of data points by either randomly duplicating instances of the minority classes, or generating new data similar to the values in the existing data.</p>
+
+<p>We can use <code class="language-plaintext highlighter-rouge">RandomOverSampler</code> function from <code class="language-plaintext highlighter-rouge">imbalanced-learn</code> module to perform oversampling:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">imblearn.over_sampling</span> <span class="kn">import</span> <span class="n">RandomOverSampler</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">label</span> <span class="o">=</span> <span class="mi">25</span><span class="o">*</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="c1"># setting sampling_strategy=0.5 ensures that the minority class will be oversampled to have half the number of examples as the majority class
+</span>
+<span class="n">ros</span> <span class="o">=</span> <span class="n">RandomOverSampler</span><span class="p">(</span><span class="n">sampling_strategy</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">data_res</span><span class="p">,</span> <span class="n">label_res</span> <span class="o">=</span> <span class="n">ros</span><span class="p">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Here, the over-sampling of the minority class is done by picking samples at random with replacement. It supports multi-class resampling by sampling each class independently and heterogeneous data as object array containing string and numeric data.</p>
+
+<h2 id="undersampling-the-majority-class">Undersampling the majority class</h2>
+
+<p>Under-sampling, on the other hand, will take less data overall by reducing the amount taken from the majority class. So, it reduces the amount of data available to train our model - this means we should only use this if we have enough data that we can accept eliminating some of it.</p>
+
+<p><code class="language-plaintext highlighter-rouge">RandomUnderSampler</code> function from <code class="language-plaintext highlighter-rouge">imbalanced-learn</code> module to perform random undersampling:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">imblearn.under_sampling</span> <span class="kn">import</span> <span class="n">RandomUnderSampler</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">label</span> <span class="o">=</span> <span class="mi">25</span><span class="o">*</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="c1"># setting sampling_strategy=0.5 ensures that the minority class is 50 percent of the majority class
+</span>
+<span class="n">ros</span> <span class="o">=</span> <span class="n">RandomUnderSampler</span><span class="p">(</span><span class="n">sampling_strategy</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">data_res</span><span class="p">,</span> <span class="n">label_res</span> <span class="o">=</span> <span class="n">ros</span><span class="p">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The decision to use over-sampling or under-sampling will depend on the amount of data we started with, and in some cases, computational costs.</p>
+
+<h2 id="synthetic-samplingsmote">Synthetic sampling(SMOTE)</h2>
+
+<p>It’s clear that with smaller datasets, it won’t be beneficial to under-sample. Instead, we can try over-sampling the minority class. Instead of randomly over-sampling with the <code class="language-plaintext highlighter-rouge">RandomOverSampler</code>, we can use the Synthetic Minority Over-sampling Technique (SMOTE) to create synthetic data.</p>
+
+<p><em>“This paper shows that a combination of our method of over-sampling the minority (abnormal) class and under-sampling the majority (normal) class can achieve better classifier performance (in ROC space) than only under-sampling the majority class. This paper also shows that a combination of our method of over-sampling the minority class and under-sampling the majority class can achieve better classifier performance (in ROC space) than varying the loss ratios in Ripper or class priors in Naive Bayes. Our method of over-sampling the minority class involves creating synthetic minority class examples.”</em>  -  <strong>N. V. Chawla, K. W. Bowyer, L. O.Hall, W. P. Kegelmeyer, <a href="https://arxiv.org/pdf/1106.1813.pdf">SMOTE: Synthetic Minority Over-sampling Technique</a>, Journal of Artificial Intelligence Research, 321-357, 2002</strong></p>
+
+<figure class="figure w-100">
+  <img src="https://rb.gy/chn0oe" class="figure-img img-fluid rounded" alt="SMOTE for synthetic data generation" /><figcaption class="figure-caption text-center">SMOTE for synthetic data generation</figcaption></figure>
+
+<p>The main idea is to consider the relationships that exist between samples and create new synthetic points along the segments connecting a group of neighbors. SMOTE finds out ‘k’ nearest neighbors of a data point in the minority class. After the nearest data points have been identified, SMOTE then creates some synthetic data points on the lines joining the primary point and the neighbors so that these data points share the similar features/characteristics of the other minority data points.</p>
+
+<p>References:</p>
+<ol>
+  <li>Hands-On Data Analysis with Pandas, Stefanie Molin</li>
+  <li><a href="https://medium.com/@asheshdas.ds/oversampling-to-remove-class-imbalance-using-smote-94d5648e7d35">Oversampling to remove class imbalance using SMOTE</a></li>
+</ol>
+
+
+
+<div class="pt-5">
+  
+</div>
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Joshitha Gandra</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:joshitha1830@gmail.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/Joshitha18"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.linkedin.com/in/joshitha-gandra-a3940b17b/"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+
+</div><small id="attribution">
+    theme <a href="https://github.com/YoussefRaafatNasry/portfolYOU">portfolYOU</a>
+  </small>
+
+</footer>
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+</html>
